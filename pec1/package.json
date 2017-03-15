@@ -1,0 +1,27 @@
+{
+  "name": "PEC1",
+  "version": "1.0.0",
+  "description": "Javascript i Frameworks",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guillermo Tamborero",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^7.0.8",
+    "browser-sync": "2.6.5",
+    "gulp": "3.8.11",
+    "gulp-cache": "^0.4.6",
+    "gulp-concat": "2.5.2",
+    "gulp-imagemin": "2.2.1",
+    "gulp-jshint": "1.10.0",
+    "gulp-minify-css": "1.0.0",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-typescript": "^3.1.5",
+    "gulp-uglify": "1.2.0",
+    "node-sass": "^4.5.0",
+    "typescript": "^2.2.1"
+  }
+}
