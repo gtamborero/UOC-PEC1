@@ -42,6 +42,7 @@ gulp.task('scripts', function() {
     var tsResult = tsProject.src() // or tsProject.src()
         .pipe(tsProject())
         .pipe(concat('all.min.js'))
+        .pipe(uglify())
     return tsResult.pipe(gulp.dest('dist/js'));
 });
 
