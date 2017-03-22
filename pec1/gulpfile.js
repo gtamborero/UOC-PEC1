@@ -36,14 +36,13 @@ gulp.task('styles', function(){
     .pipe(browserSync.reload({stream:true}))
 });
 
-gulp.task('scripts', function(){
-  return gulp.src('src/ts/**/*.ts')
-	.pipe(tsProject())
-    /*.pipe(concat('main.js'))
-    .pipe(gulp.dest('dist/js/'))
-    .pipe(uglify())*/
-    .pipe(gulp.dest('dist/js/'))
-    .pipe(browserSync.reload({stream:true}))
+
+
+gulp.task('scripts', function() {
+    var tsResult = tsProject.src() // or tsProject.src()
+        .pipe(tsProject())
+        .pipe(concat({ path: 'new.js', stat: { mode: 0666 }}))
+    return tsResult.js.pipe(gulp.dest('dist/js'));
 });
 
 gulp.task("typings",function(){
