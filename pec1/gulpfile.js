@@ -4,8 +4,8 @@ var gulp = 		require('gulp'),
  uglify = 		require('gulp-uglify');
  imagemin = 	require('gulp-imagemin'),
  minifycss = 	require('gulp-minify-css');
- sass = 		require('gulp-sass');
- ts = 			require('gulp-typescript');
+ sass = 		  require('gulp-sass');
+ ts = 			  require('gulp-typescript');
  gulpTypings = 	require("gulp-typings");
  tsProject = 	ts.createProject("tsconfig.json");
  browserSync = 	require('browser-sync');
@@ -13,7 +13,7 @@ var gulp = 		require('gulp'),
 gulp.task('browser-sync', function() {
   browserSync({
     server: {
-       baseDir: "./src"
+       baseDir: "./dist"
     }
   });
 });
@@ -39,17 +39,17 @@ gulp.task('styles', function(){
 gulp.task('scripts', function(){
   return gulp.src('src/ts/**/*.ts')
 	.pipe(tsProject())
-    .pipe(concat('main.js'))
+    /*.pipe(concat('main.js'))
     .pipe(gulp.dest('dist/js/'))
-    .pipe(uglify())
+    .pipe(uglify())*/
     .pipe(gulp.dest('dist/js/'))
     .pipe(browserSync.reload({stream:true}))
 });
 
 gulp.task("typings",function(){
     var stream = gulp.src("./typings.json")
-        .pipe(gulpTypings()); //will install all typingsfiles in pipeline. 
-    return stream; // by returning stream gulp can listen to events from the stream and knows when it is finished. 
+        .pipe(gulpTypings()); //will install all typingsfiles in pipeline.
+    return stream; // by returning stream gulp can listen to events from the stream and knows when it is finished.
 });
 
 gulp.task('default', ['browser-sync'], function(){
