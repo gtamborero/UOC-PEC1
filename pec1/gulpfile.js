@@ -41,8 +41,8 @@ gulp.task('styles', function(){
 gulp.task('scripts', function() {
     var tsResult = tsProject.src() // or tsProject.src()
         .pipe(tsProject())
-        .pipe(concat({ path: 'new.js', stat: { mode: 0666 }}))
-    return tsResult.js.pipe(gulp.dest('dist/js'));
+        .pipe(concat('all.min.js'))
+    return tsResult.pipe(gulp.dest('dist/js'));
 });
 
 gulp.task("typings",function(){
