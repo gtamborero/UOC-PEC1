@@ -1,11 +1,12 @@
 // GULP REQUIRES
 var gulp = 		    require('gulp'),
+  runSequence =   require('run-sequence');
+  clean =         require('gulp-clean');
   concat = 		    require('gulp-concat');
   uglify = 		    require('gulp-uglify');
   imagemin = 	    require('gulp-imagemin'),
   minifycss = 	  require('gulp-minify-css');
   sass = 		      require('gulp-sass');
-  clean =         require('gulp-clean');
   ts = 			      require('gulp-typescript');
   gulpTypings = 	require("gulp-typings");
   tsProject = 	  ts.createProject("tsconfig.json");
@@ -67,16 +68,15 @@ gulp.task('delete', function () {
         .pipe(clean());
 });
 
-// DEFAULT TASK: BUILD ALL!
-gulp.task('default', [
-  'delete',
-  'images',
-  'styles',
-  'scripts',
-  'copy',
-  'browser-sync'
-], function(){
-  gulp.watch("src/sass/**/*.scss", ['styles']);
-  gulp.watch("src/ts/**/*.ts", ['scripts']);
-  gulp.watch("*.html", ['bs-reload']);
+// DEFAULT TASK: BUILD ALL! + runSequence
+gulp.task('default', function(callback) {
+  runSequence('delete',
+              ['images',
+              'styles',
+              'scripts',
+              'copy'],
+              'browser-sync');
+              gulp.watch("src/sass/**/*.scss", ['styles']);
+              gulp.watch("src/ts/**/*.ts", ['scripts']);
+              gulp.watch("*.html", ['bs-reload']);
 });
