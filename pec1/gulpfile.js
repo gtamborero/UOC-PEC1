@@ -1,33 +1,36 @@
-var gulp = 		require('gulp'),
- concat = 		require('gulp-concat');
- jshint = 		require('gulp-jshint');
- uglify = 		require('gulp-uglify');
- imagemin = 	require('gulp-imagemin'),
- minifycss = 	require('gulp-minify-css');
- sass = 		  require('gulp-sass');
- ts = 			  require('gulp-typescript');
- gulpTypings = 	require("gulp-typings");
- tsProject = 	ts.createProject("tsconfig.json");
- browserSync = 	require('browser-sync');
+// GULP REQUIRES
+var gulp = 		    require('gulp'),
+  concat = 		    require('gulp-concat');
+  uglify = 		    require('gulp-uglify');
+  imagemin = 	    require('gulp-imagemin'),
+  minifycss = 	  require('gulp-minify-css');
+  sass = 		      require('gulp-sass');
+  clean =         require('gulp-clean');
+  ts = 			      require('gulp-typescript');
+  gulpTypings = 	require("gulp-typings");
+  tsProject = 	  ts.createProject("tsconfig.json");
+  browserSync = 	require('browser-sync');
 
+// BROWSER SYNC CONFIG
 gulp.task('browser-sync', function() {
   browserSync({
-    server: {
-       baseDir: "./dist"
-    }
+    server: { baseDir: "./dist" }
   });
 });
 
+// BROWSER SYNC RELOAD
 gulp.task('bs-reload', function () {
   browserSync.reload();
 });
 
+// IMAGE OPTIMIZATION
 gulp.task('images', function(){
   gulp.src('src/img/**/*')
     .pipe(imagemin({ optimizationLevel: 1, progressive: true, interlaced: true }))
     .pipe(gulp.dest('dist/img/'));
 });
 
+// STYLE SASS MINIFY + MINIFY
 gulp.task('styles', function(){
   gulp.src(['src/sass/**/*.scss'])
     .pipe(sass())
@@ -36,8 +39,14 @@ gulp.task('styles', function(){
     .pipe(browserSync.reload({stream:true}))
 });
 
+// TYPESCRIPT CONF
+gulp.task('typings',function(){
+    var stream = gulp.src("./typings.json")
+        .pipe(gulpTypings()); //will install all typingsfiles in pipeline.
+    return stream; // by returning stream gulp can listen to events from the stream and knows when it is finished.
+});
 
-
+// TYPESCRIPT TO JS + CONCAT + UGLIFY
 gulp.task('scripts', function() {
     var tsResult = tsProject.src() // or tsProject.src()
         .pipe(tsProject())
@@ -46,14 +55,20 @@ gulp.task('scripts', function() {
     return tsResult.pipe(gulp.dest('dist/js'));
 });
 
-gulp.task("typings",function(){
-    var stream = gulp.src("./typings.json")
-        .pipe(gulpTypings()); //will install all typingsfiles in pipeline.
-    return stream; // by returning stream gulp can listen to events from the stream and knows when it is finished.
+// DELETE ALL
+gulp.task('delete', function () {
+    return gulp.src('dist/', {read: true})
+        .pipe(clean());
 });
 
-gulp.task('default', ['browser-sync'], function(){
+// DEFAULT TASK: BUILD ALL!
+gulp.task('default', [
+  'images',
+  'styles',
+  'scripts',
+  'browser-sync'
+], function(){
   gulp.watch("src/sass/**/*.scss", ['styles']);
-  gulp.watch("src/ts/**/*.js", ['scripts']);
+  gulp.watch("src/ts/**/*.ts", ['scripts']);
   gulp.watch("*.html", ['bs-reload']);
 });
