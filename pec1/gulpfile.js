@@ -55,6 +55,12 @@ gulp.task('scripts', function() {
     return tsResult.pipe(gulp.dest('dist/js'));
 });
 
+// COPY BASE / UNTOUCHED FILES
+gulp.task('copy', function() {
+    gulp.src(['src/index.html']).pipe(gulp.dest('dist/'));
+    gulp.src(['src/vendor/**/*']).pipe(gulp.dest('dist/vendor'));
+});
+
 // DELETE ALL
 gulp.task('delete', function () {
     return gulp.src('dist/', {read: true})
@@ -63,9 +69,11 @@ gulp.task('delete', function () {
 
 // DEFAULT TASK: BUILD ALL!
 gulp.task('default', [
+  'delete',
   'images',
   'styles',
   'scripts',
+  'copy',
   'browser-sync'
 ], function(){
   gulp.watch("src/sass/**/*.scss", ['styles']);
