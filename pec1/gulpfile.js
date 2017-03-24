@@ -9,7 +9,7 @@ var gulp = 		    require('gulp'),
   sass = 		      require('gulp-sass');
   ts = 			      require('gulp-typescript');
   gulpTypings = 	require("gulp-typings");
-  tsProject = 	  ts.createProject("tsconfig.json");
+  tsProject = 	  ts.createProject("tsconfig.json" );
   browserSync = 	require('browser-sync');
 
 // BROWSER SYNC CONFIG
@@ -51,8 +51,8 @@ gulp.task('typings',function(){
 gulp.task('scripts', function() {
     var tsResult = tsProject.src() // or tsProject.src()
         .pipe(tsProject())
-        .pipe(concat('all.min.js'))
         .pipe(uglify())
+        .pipe(concat('all.min.js'))
     return tsResult.pipe(gulp.dest('dist/js'));
 });
 
@@ -77,6 +77,6 @@ gulp.task('default', function(callback) {
               'copy'],
               'browser-sync');
               gulp.watch("src/sass/**/*.scss", ['styles']);
-              gulp.watch("src/ts/**/*.ts", ['scripts']);
-              gulp.watch("*.html", ['bs-reload']);
+              gulp.watch("src/ts/*.ts", ['scripts']);
+              gulp.watch("src/*.html", ['copy','bs-reload']);
 });

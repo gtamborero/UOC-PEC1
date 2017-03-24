@@ -3,7 +3,7 @@
  */
 namespace TodoApp {
 
-    export class TodoList {
+    export class TodoList { 
 
         // TEMPLATE | DOM ELEMENTS
         static DOM_TODOLIST_CONTAINER: string = '#todo-list-container';

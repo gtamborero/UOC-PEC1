@@ -6,7 +6,7 @@ namespace TodoApp {
     export interface TodoData {
         id:number;
         todoTxt:string;
-    }
+    }  
 
     export class TodoItem {
 
