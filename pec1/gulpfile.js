@@ -53,10 +53,13 @@ gulp.task('typings',function(){
 // TYPESCRIPT TO JS + CONCAT + UGLIFY
 gulp.task('scripts', function() {
     var tsResult = tsProject.src() // or tsProject.src()
+        .pipe(sourcemaps.init())
         .pipe(tsProject())
         .pipe(uglify())
         .pipe(concat('all.min.js'))
-    return tsResult.pipe(gulp.dest('dist/js'));
+    return tsResult
+      .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest('dist/js'));
 });
 
 // COPY BASE / UNTOUCHED FILES
