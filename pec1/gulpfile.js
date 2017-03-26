@@ -4,6 +4,7 @@ var gulp = 		    require('gulp'),
   clean =         require('gulp-clean');
   concat = 		    require('gulp-concat');
   uglify = 		    require('gulp-uglify');
+  sourcemaps =    require('gulp-sourcemaps');
   imagemin = 	    require('gulp-imagemin'),
   minifycss = 	  require('gulp-minify-css');
   sass = 		      require('gulp-sass');
@@ -34,8 +35,10 @@ gulp.task('images', function(){
 // STYLE SASS MINIFY + MINIFY
 gulp.task('styles', function(){
   gulp.src(['src/sass/**/*.scss'])
-    .pipe(sass())
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
     .pipe(minifycss())
+    .pipe(sourcemaps.write("."))
     .pipe(gulp.dest('dist/css/'))
     .pipe(browserSync.reload({stream:true}))
 });
